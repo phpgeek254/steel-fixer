@@ -7,7 +7,7 @@
                         <h3> Beam Geometry </h3>
                         </div>
                         <v-card>
-                            <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-card-text>
+
                         </v-card>
                     </v-expansion-panel-content>
 
@@ -25,8 +25,17 @@
 </template>
 
 <script>
+import {Span} from "../../../Objects/Spans";
+
 export default {
-    name: "Beam"
+    name: "Beam",
+    data () {
+        return {
+            spans: [
+                Span
+            ]
+        }
+    }
 }
 </script>
 
