@@ -1,103 +1,143 @@
 <template>
     <v-layout row>
-        <v-flex xs12 lg6>
-    <form>
-        <v-select
-                label="Characteristic Strength of Concrete"
-                :items="[16, 20, 25, 30, 35, 40]"
-                v-model="fcu"
-                required
-        ></v-select>
-        <v-select
-                :items="[250, 500]"
-                label="Characteristic Strength of Steel"
-                v-model="fy"
-                required
-        ></v-select>
+        <v-flex xs12>
+            <form>
+                <!-- Tabs for Each step. -->
+                <!-- Constants -->
+                <v-tabs height="80" dark slot="extension" v-model="tab" color="indigo" grow
+                        style="color: #FFF !important;">
+                    <v-tabs-slider color="white"></v-tabs-slider>
+                    <v-tab key="m_props"> Material Properties</v-tab>
+                    <v-tab> Geometry</v-tab>
+                    <v-tab> Loading</v-tab>
+                    <v-tab> Design</v-tab>
+                    <v-tab> Results</v-tab>
+                </v-tabs>
 
-        <v-text-field
-                label="Width of the column (b)"
-                v-model="b"
-                required
-        ></v-text-field>
-        <v-text-field
-                label="Column depth (d)"
-                v-model="d"
-                required
-        ></v-text-field>
+                <v-tabs-items v-model="tab">
+                    <v-tab-item>
+                        <v-card flat>
+                            <h1 class="ma-3">Material Properties</h1>
+                            <!--Characteristic Strength of Concrete-->
+                            <v-layout row>
+                                <v-flex>
+                                    <MaterialProperties></MaterialProperties>
+                                </v-flex>
+                                <v-flex>
+                                    <!-- Images for illustration-->
+                                </v-flex>
+                            </v-layout>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <ColumnGeometry></ColumnGeometry>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card flat>
+                            <v-layout>
+                                <v-flex>
+                                    <v-card-text>
+                                        <h3>Loading</h3>
+                                        <v-layout>
+                                            <v-flex>
+                                                <LiveLoad></LiveLoad>
+                                            </v-flex>
+                                        </v-layout>
+                                        <!-- Slab Loading -->
+                                        <v-layout>
 
-        <v-text-field
-                label="Column Clear Height"
-                v-model="l"
-                required
-        ></v-text-field>
+                                            <v-flex class="mr-2">
+                                                <v-select
+                                                        label="Select Slab"
+                                                        :items="['beam', 'wall', 'slab']"
+                                                        v-model="loadType"
+                                                        outline
+                                                ></v-select>
+                                            </v-flex>
+                                            <v-flex>
+                                                <v-btn primary @click="EventBus.$emit('open_dialog')" large> + Add Load </v-btn>
+                                            </v-flex>
+                                        </v-layout>
 
-        <v-select
-                label="X-X axis top condition"
-                :items="[1, 2, 3]"
-                v-model="xx_top_condition"
-        ></v-select>
+                                        <!-- Loading from Slabs -->
+                                        <div v-if="slabLoads.length">
+                                            <v-layout row>
+                                                <v-flex>
+                                                    <h2> Loading from the Slabs </h2>
+                                                    <DisplayLoading :load_type="slabLoads" type="slab"></DisplayLoading>
+                                                </v-flex>
+                                            </v-layout>
+                                        </div>
+                                        <!-- Loading from beams -->
+                                        <div v-if="beamLoads.length">
+                                            <v-layout row>
+                                                <v-flex>
+                                                    <h2> Loading from the Beams </h2>
+                                                <DisplayLoading :load_type="beamLoads" type="beam"></DisplayLoading>
+                                                </v-flex>
+                                            </v-layout>
+                                        </div>
+                                        <!-- Wall Loads -->
+                                        <v-layout row v-if="wallLoads.length">
+                                            <v-flex>
+                                                <h2> Loading from the Wall </h2>
+                                                <DisplayLoading :load_type="wallLoads" type="wall"></DisplayLoading>
+                                            </v-flex>
+                                        </v-layout>
+                                        <!--Axial Loading-->
+                                    </v-card-text>
+                                </v-flex>
+                                <v-flex></v-flex>
+                            </v-layout>
+                        </v-card>
+                    </v-tab-item>
 
-        <v-select
-                label="Y-Y axis top condition"
-                :items="[1, 2, 3]"
-                v-model="yy_top_condition"
-        ></v-select>
-
-        <v-select
-                label="X-X axis bottom condition"
-                :items="[1, 2, 3]"
-                v-model="xx_bottom_condition"
-        ></v-select>
-
-        <v-select
-                label="Y-Y axis Bottom condition"
-                :items="[1, 2, 3]"
-                v-model="yy_bottom_condition"
-        ></v-select>
-
-        <v-text-field
-                label="Axial Loading"
-                v-model="loading"
-                required
-        ></v-text-field>
-        <v-btn @click="design">Calculate</v-btn>
-    </form>
+                    <v-tab-item>
+                        <SteelBarSelection></SteelBarSelection>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card flat>
+                            <v-card-text>
+                                <h3>Results</h3>
+                            </v-card-text>
+                        </v-card>
+                    </v-tab-item>
+                </v-tabs-items>
+            </form>
         </v-flex>
-        <v-flex xs12 lg6 p2>
-            <h3> Results </h3>
-            <ColumnGeometry :width="width" :height="height" :length="length"></ColumnGeometry>
-            <ColumnLoading :column_type="loading_type"></ColumnLoading>
-        </v-flex>
+        <CreateLoads :type="loadType"></CreateLoads>
     </v-layout>
 </template>
 
 <script>
-    import ColumnGeometry from "./CollumnGeometry";
-    import ColumnLoading from "./ColumnLoading";
+    import CreateLoads from "./CreateLoads/CreateLoads";
+    import {mapGetters} from 'vuex';
+    import DisplayLoading from "./Loads/DispalyLoading";
+    import MaterialProperties from "./CreateLoads/MaterialProperties";
+    import ColumnGeometry from "./CreateLoads/ColumnGeometry";
+    import SteelBarSelection from "./CreateLoads/SteelBarSelection";
+    import LiveLoad from "./CreateLoads/LiveLoad";
     export default {
         name: "Column",
-        components: {ColumnLoading, ColumnGeometry},
-        data () {
+        components: {LiveLoad, SteelBarSelection, ColumnGeometry, MaterialProperties, DisplayLoading, CreateLoads},
+        data() {
             return {
-                category_names: [],
-                width: 0,
-                height: 0,
-                length: 0,
-                loading_type: null
+                addBeam: null,
+                loadType: 'slab',
+                tab: null,
             }
         },
-        mounted () {
-            this.initCategoryNames();
+        computed: {
+            ...mapGetters(['beamLoads', 'slabLoads', 'wallLoads']),
         },
-        methods: {
-            initCategoryNames: function () {
-                let categories = this.COLUMN.COLUMN_CATEGORIES;
-                categories.forEach((cat) => this.category_names.push(cat.name));
-            },
-
-            design() {}
-        }
+        mounted() {
+            this.EventBus.$on('removeBeamLoad', () => this.beams-=1);
+            this.EventBus.$on('proceed_to_next_page', () => {
+                const tab = parseInt(this.tab);
+                this.tab = (tab < 4 ? tab + 1 : 0)
+            });
+        },
+        methods: {}
     }
 </script>
 

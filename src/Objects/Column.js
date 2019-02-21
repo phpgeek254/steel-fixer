@@ -18,19 +18,25 @@ export const Column = {
         [0.90, 0.95, 1.00],
     ],
 
-    getBettaCoefficient (topEndCondition, bottomEndCondition, columnHeight) {
-        return this.END_CONDITION_COEFFICIENTS[topEndCondition - 1][bottomEndCondition - 1] * columnHeight;
+    getBettaCoefficient (topEndCondition, bottomEndCondition) {
+        let betaCoefficient = this.END_CONDITION_COEFFICIENTS[topEndCondition - 1][bottomEndCondition - 1];
+        console.log('getBettaCoefficient ', betaCoefficient);
+        return betaCoefficient;
     },
 
     calculateEffectiveHeight (topEndCondition, bottomEndCondition, columnClearHeight) {
-        return this.getBettaCoefficient(topEndCondition, bottomEndCondition, columnClearHeight) / columnClearHeight;
+        let effectiveColumnHeight = this.getBettaCoefficient(topEndCondition, bottomEndCondition) * columnClearHeight;
+        console.log('calculateEffectiveHeight ? ', effectiveColumnHeight);
+        return effectiveColumnHeight;
     },
-    checkColumnSlenderness(topEndCondition, bottomEndCondition, columnClearHeight) {
-        return this.calculateEffectiveHeight(topEndCondition, bottomEndCondition, columnClearHeight) > this.SLENDERNESS_RATIOS.BracedColumn;
+    checkColumnSlenderness(topEndCondition, bottomEndCondition, columnClearHeight, columnWidth) {
+        let lexDivH = this.calculateEffectiveHeight(topEndCondition, bottomEndCondition, columnClearHeight) / columnWidth;
+        console.log('lex = ', lexDivH);
+        return this.calculateEffectiveHeight(topEndCondition, bottomEndCondition, columnClearHeight) / columnClearHeight < this.SLENDERNESS_RATIOS.BracedColumn;
     },
 
     calculateAreaOfSteel (loading, characteristicConcreteStrength, characteristicSteelStrength, columnWidth, columnDepth) {
-        return -1 * ((loading - (0.4*characteristicConcreteStrength * columnDepth * columnWidth)) / ((0.4*characteristicConcreteStrength) - (0.8*characteristicSteelStrength)))
+        return -1 * (((loading*1000) - (0.4*characteristicConcreteStrength * columnDepth * columnWidth)) / ((0.4*characteristicConcreteStrength) - (0.8*characteristicSteelStrength)))
     },
 
     calculateMinimumLinkDiameter (largestBar) {
