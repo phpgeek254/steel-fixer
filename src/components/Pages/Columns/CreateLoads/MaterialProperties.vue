@@ -23,6 +23,7 @@
 <script>
     export default {
         name: "MaterialProperties",
+        props: ['element_type'],
         data() {
             return {
                 materials: {
@@ -34,7 +35,7 @@
         },
         methods: {
             saveMaterialProperties () {
-                this.$store.dispatch('saveMaterialProperties', this.materials)
+                this.$store.dispatch('saveMaterialProperties', {materialProperties: this.materials, element_type: this.element_type});
                 this.EventBus.$emit('proceed_to_next_page');
             }
         }

@@ -20,12 +20,7 @@
                             <h1 class="ma-3">Material Properties</h1>
                             <!--Characteristic Strength of Concrete-->
                             <v-layout row>
-                                <v-flex>
-                                    <MaterialProperties></MaterialProperties>
-                                </v-flex>
-                                <v-flex>
-                                    <!-- Images for illustration-->
-                                </v-flex>
+                                <MaterialProperties :element_type="column"></MaterialProperties>
                             </v-layout>
                         </v-card>
                     </v-tab-item>
@@ -40,7 +35,7 @@
                                         <h3>Loading</h3>
                                         <v-layout>
                                             <v-flex>
-                                                <LiveLoad></LiveLoad>
+                                                <LiveLoad element_type="column"></LiveLoad>
                                             </v-flex>
                                         </v-layout>
                                         <!-- Slab Loading -->
@@ -98,7 +93,12 @@
                     <v-tab-item>
                         <v-card flat>
                             <v-card-text>
-                                <h3>Results</h3>
+                                <h1>Results</h1>
+                                <DisplayLoadingResults></DisplayLoadingResults>
+                                <DisplayGeometry></DisplayGeometry>
+                                <DisplayGeometry></DisplayGeometry>
+                                <!--<DisplayLoading></DisplayLoading>-->
+                                <DisplayDesign></DisplayDesign>
                             </v-card-text>
                         </v-card>
                     </v-tab-item>
@@ -117,9 +117,16 @@
     import ColumnGeometry from "./CreateLoads/ColumnGeometry";
     import SteelBarSelection from "./CreateLoads/SteelBarSelection";
     import LiveLoad from "./CreateLoads/LiveLoad";
+    import DisplayDesign from "./Results/DisplayDesign";
+    import DisplayGeometry from "./Results/DisplayGeometry";
+    import DisplayLoadingResults from "./Results/DisplayLoadingResults";
     export default {
         name: "Column",
-        components: {LiveLoad, SteelBarSelection, ColumnGeometry, MaterialProperties, DisplayLoading, CreateLoads},
+        components: {
+            DisplayLoadingResults,
+            DisplayGeometry,
+            DisplayDesign,
+            LiveLoad, SteelBarSelection, ColumnGeometry, MaterialProperties, DisplayLoading, CreateLoads},
         data() {
             return {
                 addBeam: null,

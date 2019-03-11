@@ -17,17 +17,15 @@ Vue.use(Vuetify);
 
 Object.defineProperty(Vue.prototype, 'Makerjs', { value: Marker});
 // Column:
-Object.defineProperty(Vue.prototype, 'COLUMN', { value: Column});
+Object.defineProperty(Vue.prototype, '$_COLUMN', { value: Column});
 // Steel Bars
 Object.defineProperty(Vue.prototype, 'STEEL_BARS', { value: STEEL_BARS});
 // Concrete
 Object.defineProperty(Vue.prototype, 'CONCRETE', { value: CONCRETE});
 // Beam
 Object.defineProperty(Vue.prototype, 'BEAM', {value: BEAM});
-
 // Slab
 Object.defineProperty(Vue.prototype, 'SLAB', {value: SLAB});
-
 // Live loads  on occupancy types
 Object.defineProperty(Vue.prototype, 'OCCUPANCY_TYPE_LOADS', {value: OCCUPANCY_TYPE_LOADS});
 

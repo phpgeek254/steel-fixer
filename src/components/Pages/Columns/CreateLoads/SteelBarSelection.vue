@@ -6,14 +6,14 @@
             <v-select
                     label="Select Steel Reinforcement Bars"
                     :items="STEEL_BARS.BAR_SIZES"
-                    v-model="barSize"
+                    v-model="selectedBars.barSize"
                     outline
             ></v-select>
 
             <v-select
                     label="Select Steel Reinforcement Bars"
                     :items="[4, 6, 8, 10]"
-                    v-model="numberOfBars"
+                    v-model="selectedBars.numberOfBars"
                     outline
             ></v-select>
         </v-card-text>
@@ -27,11 +27,17 @@
         name: "SteelBarSelection",
         data() {
             return {
-                addBeam: null,
-                loadType: 'slab',
                 tab: null,
-                barSize: 12,
-                numberOfBars: 4
+                selectedBars: {
+                    barSize: 12,
+                    numberOfBars: 4
+                }
+            }
+        },
+        methods: {
+            design() {
+                this.$store.dispatch('saveSelectedBars', this.selectedBars);
+                this.EventBus.$emit('proceed_to_next_page');
             }
         }
     }

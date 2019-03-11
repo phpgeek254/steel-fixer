@@ -1,6 +1,6 @@
 export const STEEL_BARS = {
     BAR_SIZES: [
-        6, 8, 10, 12, 16, 20, 25, 32, 40
+        8, 10, 12, 16, 20, 25, 32, 40
     ],
 
     calculateAreaOfSteelBar (diameter) {

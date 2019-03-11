@@ -55,6 +55,12 @@
                             outline
                     ></v-select>
                 </v-flex>
+
+                <v-flex class="ma-2">
+                    <img src="images/column_geo.png" alt="column geometry" width="200"> <br>
+                    <img src="images/Column_r.png" alt="column restraints" width="400">
+                </v-flex>
+
                 <v-flex>
 
                 </v-flex>
@@ -66,6 +72,8 @@
 </template>
 
 <script>
+    import {Column} from "../../../../Objects/Column";
+
     export default {
         name: "ColumnGeometry",
         data() {
@@ -83,6 +91,7 @@
         },
         methods: {
             saveColumnGeometry() {
+                Column.checkColumnSlenderness(this.column.xx_top_condition, this.column.xx_bottom_condition, this.column.l, this.column.b);
                 this.$store.dispatch('saveColumnGeometry', this.column);
                 this.EventBus.$emit('proceed_to_next_page');
             }

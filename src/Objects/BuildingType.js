@@ -11,6 +11,8 @@ export const OCCUPANCY_TYPE_LOADS = {
         { name: 'Assembly Spaces', load: 5 },
     ],
 
+    OCCUPANCY_LOAD_VALUES : [ 2, 2, 2.5, 2.5, 3, 3, 4, 4, 5 ],
+
     OCCUPANCY_TYPES: [
         'washrooms',
         'living spaces',

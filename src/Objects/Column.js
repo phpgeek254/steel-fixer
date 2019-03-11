@@ -36,7 +36,7 @@ export const Column = {
     },
 
     calculateAreaOfSteel (loading, characteristicConcreteStrength, characteristicSteelStrength, columnWidth, columnDepth) {
-        return -1 * (((loading*1000) - (0.4*characteristicConcreteStrength * columnDepth * columnWidth)) / ((0.4*characteristicConcreteStrength) - (0.8*characteristicSteelStrength)))
+        return  (((loading*1000) - (0.4*characteristicConcreteStrength * columnDepth * columnWidth)) / ((0.4*characteristicConcreteStrength) - (0.8*characteristicSteelStrength)))
     },
 
     calculateMinimumLinkDiameter (largestBar) {
