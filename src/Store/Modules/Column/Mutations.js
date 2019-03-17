@@ -1,4 +1,3 @@
-import {Column} from "../../../Objects/Column";
 import {STEEL_BARS} from "../../../Objects/SteelBars";
 import {element_types as Element_type} from "../../../Objects/ElementType";
 import {SLAB} from "../../../Objects/Slab";
@@ -18,7 +17,6 @@ export const mutations = {
             default:
                 break;
         }
-
     },
 
     'REMOVE_LOAD': (state, payload) => {
