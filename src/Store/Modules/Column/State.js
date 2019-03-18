@@ -18,6 +18,7 @@ export const state = {
             width: 4000,
             thickness: 150,
         },
+        results: {},
         live_load: 3,
         selfWeight: null,
         area_of_steel: null

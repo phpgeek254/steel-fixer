@@ -36,7 +36,7 @@
 
 <script>
     export default {
-        name: "ObjectDimensions",
+         name: "ObjectDimensions",
         props: ['element_type'],
         data() {
             return {
@@ -47,9 +47,17 @@
                 }
             }
         },
+        mounted () {
+            this.$store.dispatch('saveObjectDimensions', { dimensions: this.elementObject, element_type: this.element_type});
+        },
         methods: {
             saveObjectGeometry () {
-                this.$store.dispatch('saveObjectDimensions', { dimensions: this.elementObject, element_type: this.element_type});
+                let dimensions = {
+                    length: parseFloat(this.elementObject.length),
+                    width: parseFloat(this.elementObject.width),
+                    thickness: parseFloat(this.elementObject.thickness)
+                };
+                this.$store.dispatch('saveObjectDimensions', { dimensions: dimensions, element_type: this.element_type});
             },
         }
     }

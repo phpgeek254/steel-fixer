@@ -1,6 +1,7 @@
 import {STEEL_BARS} from "../../../Objects/SteelBars";
 import {element_types as Element_type} from "../../../Objects/ElementType";
 import {SLAB} from "../../../Objects/Slab";
+import {CONCRETE} from "../../../Objects/Concrete";
 
 export const mutations = {
     'CREATE_MEMBER_LOAD': (state, payload) => {
@@ -64,6 +65,7 @@ export const mutations = {
                 break;
             case Element_type.SLAB:
                 state.slab.live_load = payload.load.live_load;
+                state.slab.designLoad = CONCRETE.calculateDesignLoading(state.slab.live_load, state.slab.selfWeight);
                 break;
             case Element_type.BEAM:
                 state.beam.live_load = payload.load.live_load;
@@ -88,7 +90,7 @@ export const mutations = {
                 break;
             case Element_type.SLAB:
                 state.slab.dimensions = payload.dimensions;
-                state.slab.selfWeight = SLAB.getSlabSelfWeight(payload.dimensions);
+                state.slab.selfWeight = SLAB.getSlabSelfWeight(payload.dimensions) + SLAB.getFinishes();
                 break;
             case Element_type.BEAM:
                 state.beam.dimensions = payload.dimensions;
@@ -96,6 +98,10 @@ export const mutations = {
             default:
                 return;
         }
+    },
+
+    'SAVE_DESIGN_RESULTS': (state, payload) => {
+        state.slab.results = payload.momentsAreas;
     }
 
 

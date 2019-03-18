@@ -15,4 +15,5 @@ export const actions = {
     saveLiveLoad: ({commit}, payload) => commit('SAVE_LIVE_LOAD', payload),
     saveSelectedBars: ({commit}, payload) => commit('SAVE_SELECTED_BARS', payload),
     saveObjectDimensions: ({commit}, payload) => commit('SAVE_OBJECT_DIMENSIONS', payload),
+    saveDesignResults: ({commit}, payload) => commit('SAVE_DESIGN_RESULTS', payload),
 };

@@ -6,7 +6,7 @@ export const OCCUPANCY_TYPE_LOADS = {
         { name: 'kitchen spaces', load: 2.5 },
         { name: 'banking areas', load: 3,},
         { name: 'Dining Areas', load: 3 },
-        { name: 'Corridors', loadL: 4 },
+        { name: 'Corridors', load: 4 },
         { name: 'Reading Spaces', load: 4 },
         { name: 'Assembly Spaces', load: 5 },
     ],

@@ -3,20 +3,20 @@ import {CONCRETE} from "./Concrete";
 export const SLAB = {
 
     SLAB_SUPPORT_CONDITIONS: [
-        'Simply Supported',
-        'Restrained'
+        {name: 'Simply Supported', index: 0},
+        {name: 'Restrained', index: 1}
     ],
 
     PANEL_TYPES: [
-        'Interior panels',
-        'One short edge discontinuous',
-        'One long edge discontinuous',
-        'Two adjacent edges discontinuous',
-        'Two short edges discontinuous',
-        'Two long edges discontinuous',
-        'Three edges discontinuous (one long edge continuous)',
-        'Three edges discontinuous (one short edge continuous)',
-        'Four edges discontinuous'
+        {name: 'Interior panels', index: 0},
+        {name: 'One short edge discontinuous', index: 1},
+        { name: 'One long edge discontinuous', index: 2},
+        { name: 'Two adjacent edges discontinuous', index: 3},
+        { name: 'Two short edges discontinuous', index: 4},
+        { name: 'Two long edges discontinuous', index: 5},
+        { name: 'Three edges discontinuous (one long edge continuous)', index: 6},
+        { name: 'Three edges discontinuous (one short edge continuous)', index: 7},
+        { name: 'Four edges discontinuous', index: 8},
     ],
     SLAB_TYPES: [
         {
@@ -76,11 +76,17 @@ export const SLAB = {
     ],
 
     getSlabSelfWeight(slabDetails) {
-        let selfWeight = (slabDetails.thickness / 1000 * slabDetails.length / 1000 * slabDetails.width / 1000 * CONCRETE.CONCRETE_UNIT_WEIGHT).toFixed(2);
+        let area = slabDetails.length/1000 * slabDetails.width/1000;
+        let selfWeight = (slabDetails.thickness / 1000 * slabDetails.length / 1000 * slabDetails.width / 1000 * CONCRETE.CONCRETE_UNIT_WEIGHT/area).toFixed(2);
         return parseFloat(selfWeight);
     },
+    getFinishes () {
+        return 1;
+    },
     getSlabDimensionRatio(slabObject) {
+
         let ratio = (slabObject.length / slabObject.width).toFixed(1);
+        console.info("ly/lx =======> "+ ratio);
         return parseFloat(ratio);
     },
 
@@ -94,58 +100,62 @@ export const SLAB = {
         return slabState;
     },
 
-    getEdgeMomentsRestrined(panelTypeIndex, slabObject, designLoad) {
+    getEdgeMomentsRestrained(panelTypeIndex, slabObject, designLoad) {
         let edgeCoeff = 0;
         let ratio = this.getSlabDimensionRatio(slabObject);
         if (ratio < 1.1) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[0];
-        } else if (ratio > 1.1 && ratio < 1.2) {
+        } else if (ratio >= 1.1 && ratio < 1.2) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[1];
-        } else if (ratio > 1.2 && ratio < 1.3) {
+        } else if (ratio >= 1.2 && ratio < 1.3) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[2];
-        } else if (ratio > 1.3 && ratio < 1.4) {
+        } else if (ratio >= 1.3 && ratio < 1.4) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[3];
-        } else if (ratio > 1.4 && ratio < 1.5) {
+        } else if (ratio >= 1.4 && ratio < 1.5) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[4];
-        } else if (ratio > 1.5 && ratio < 1.7) {
+        } else if (ratio >= 1.5 && ratio < 1.7) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[5];
-        } else if (ratio > 1.7 && ratio < 2) {
+        } else if (ratio >= 1.7 && ratio < 2) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[6]
         } else if (ratio === 2) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[7]
         }
-
-        return edgeCoeff * designLoad * Math.pow(slabObject.width, 2);
+        let moment = (edgeCoeff * designLoad * Math.pow(slabObject.width/1000, 2)).toFixed(2);
+        console.log("Edge coefficient: =======> " + edgeCoeff + 'Moment =====>' + moment);
+        return parseFloat(moment);
     },
+
     getMidspanMomentsRestrined(panelTypeIndex, slabObject, designLoad) {
         let edgeCoeff = 0;
         let ratio = this.getSlabDimensionRatio(slabObject);
         if (ratio < 1.1) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[0];
-        } else if (ratio > 1.1 && ratio < 1.2) {
+        } else if (ratio >= 1.1 && ratio < 1.2) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[1];
-        } else if (ratio > 1.2 && ratio < 1.3) {
+        } else if (ratio >= 1.2 && ratio < 1.3) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[2];
-        } else if (ratio > 1.3 && ratio < 1.4) {
+        } else if (ratio >= 1.3 && ratio < 1.4) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[3];
-        } else if (ratio > 1.4 && ratio < 1.5) {
+        } else if (ratio >= 1.4 && ratio < 1.5) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[4];
-        } else if (ratio > 1.5 && ratio < 1.7) {
+        } else if (ratio >= 1.5 && ratio < 1.7) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[5];
-        } else if (ratio > 1.7 && ratio < 2) {
+        } else if (ratio >= 1.7 && ratio < 2) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[6]
         } else if (ratio === 2) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].midspan_moment_coeff[7]
         }
 
-        return edgeCoeff * designLoad * Math.pow(slabObject.width, 2);
+        let moment = (edgeCoeff * designLoad * Math.pow(slabObject.width/1000, 2)).toFixed(2);
+        console.log("Midspan coefficient: =======> " + edgeCoeff + 'Moment =====>' + moment);
+        return parseFloat(moment);
     },
 
     calculateEffectiveDepthMain (slabObject, mainSteelSize = 10, cover = 20) {
-        return slabObject.width - (mainSteelSize/2) - cover;
+        return slabObject.thickness - (mainSteelSize/2) - cover;
     },
     calculateEffectiveDepthSec (slabObject, linkSize = 8, mainSteelSize = 10, cover = 20) {
-        return slabObject.width - linkSize - (mainSteelSize/2) - cover;
+        return slabObject.thickness - linkSize - (mainSteelSize/2) - cover;
     },
     getMidspanMomentsLx (slabObject, designLoading) {
         let ratio = slabObject.length/ slabObject.width;
@@ -174,10 +184,27 @@ export const SLAB = {
         if (parseFloat(check) > 0.95) return (0.95 * effectiveDepth); else return parseFloat(check);
     },
 
-    calculateAreaOfSteelOnSlab(moment, fY, leverArm) {
+    calculateMainSteelArea(slabObject, mainSteelSize, cover, moment, fCu, fY) {
+        let effectiveDepthMain = this.calculateEffectiveDepthMain(slabObject, mainSteelSize, cover);
+        let k = this.calculateK(moment, fCu, effectiveDepthMain, slabObject.width = 1000);
+        let leverArm = this.calculateLeverArm(k, effectiveDepthMain);
         let aS = ((moment * Math.pow(10, 6)) / (0.95 * fY * leverArm)).toFixed(2);
         return parseFloat(aS);
     },
+
+    calculateSecondarySteelArea(slabObject, mainSteelSize, cover, moment, fCu, fY) {
+        let effectiveDepthMain = this.calculateEffectiveDepthSec(slabObject, mainSteelSize, cover);
+        let k = this.calculateK(moment, fCu, effectiveDepthMain, slabObject.width = 1000);
+        let leverArm = this.calculateLeverArm(k, effectiveDepthMain);
+        let aS = ((moment * Math.pow(10, 6)) / (0.95 * fY * leverArm)).toFixed(2);
+        return parseFloat(aS);
+    },
+
+    calculateMinimuArea (slabObject) {
+        let minArea = ((0.13/100) * 1000 * slabObject.thickness).toFixed(2);
+        return parseFloat(minArea);
+    },
+
     checkSlabDeflection() {
     }
 
