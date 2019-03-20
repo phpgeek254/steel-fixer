@@ -61,7 +61,7 @@ export const mutations = {
         switch (payload.element_type) {
             case Element_type.COLUMN:
                 state.column.live_load = payload.load.live_load;
-                state.column.numberOfFloors = payload.load.numberOfFloors;
+                state.column.numberOfFloors = payload.load.number_of_floors;
                 break;
             case Element_type.SLAB:
                 state.slab.live_load = payload.load.live_load;

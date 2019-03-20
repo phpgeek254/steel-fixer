@@ -20,7 +20,7 @@
                             <h1 class="ma-3">Material Properties</h1>
                             <!--Characteristic Strength of Concrete-->
                             <v-layout row>
-                                <MaterialProperties :element_type="column"></MaterialProperties>
+                                <MaterialProperties element_type="column"></MaterialProperties>
                             </v-layout>
                         </v-card>
                     </v-tab-item>
