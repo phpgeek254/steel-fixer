@@ -27,7 +27,6 @@
 </template>
 
 <script>
-    import {element_types as Element_type} from "../../../../Objects/ElementType";
 
     export default {
         name: "LiveLoad",
@@ -36,7 +35,7 @@
             return {
                 liveLoadObject: {
                     live_load: '',
-                    number_of_floors: this.element_type === Element_type.COLUMN ? 2 : 0,
+                    number_of_floors: 2,
                 }
 
             }

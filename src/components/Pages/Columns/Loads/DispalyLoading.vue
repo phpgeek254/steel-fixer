@@ -1,5 +1,5 @@
 <template>
-    <div v-show="column.load_type" class="ma-2">
+    <div class="ma-2">
         <h2> {{ type }} Loading</h2>
         <v-layout row v-for="(beam, index) in load_type" :key="index" grid-list-md>
             <v-flex class="mr-2">
@@ -43,6 +43,9 @@
         name: "DisplayLoading",
         computed: {
             ...mapGetters(['column'])
+        },
+        mounted() {
+            console.log('Load type passed: ' + this.load_type)
         },
         methods: {
             removeLoad (type, index) {
