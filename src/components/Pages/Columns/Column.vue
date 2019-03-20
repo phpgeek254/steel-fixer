@@ -55,28 +55,28 @@
                                         </v-layout>
 
                                         <!-- Loading from Slabs -->
-                                        <div v-if="slabLoads.length">
+                                        <div v-if="column.slabLoads">
                                             <v-layout row>
                                                 <v-flex>
                                                     <h2> Loading from the Slabs </h2>
-                                                    <DisplayLoading :load_type="slabLoads" type="slab"></DisplayLoading>
+                                                    <DisplayLoading :load_type="column.slabLoads" type="slab"></DisplayLoading>
                                                 </v-flex>
                                             </v-layout>
                                         </div>
                                         <!-- Loading from beams -->
-                                        <div v-if="beamLoads.length">
+                                        <div v-if="column.beamLoads">
                                             <v-layout row>
                                                 <v-flex>
                                                     <h2> Loading from the Beams </h2>
-                                                <DisplayLoading :load_type="beamLoads" type="beam"></DisplayLoading>
+                                                <DisplayLoading :load_type="column.beamLoads" type="beam"></DisplayLoading>
                                                 </v-flex>
                                             </v-layout>
                                         </div>
                                         <!-- Wall Loads -->
-                                        <v-layout row v-if="wallLoads.length">
+                                        <v-layout row v-if="column.wallLoads">
                                             <v-flex>
                                                 <h2> Loading from the Wall </h2>
-                                                <DisplayLoading :load_type="wallLoads" type="wall"></DisplayLoading>
+                                                <DisplayLoading :load_type="column.wallLoads" type="wall"></DisplayLoading>
                                             </v-flex>
                                         </v-layout>
                                         <!--Axial Loading-->
@@ -135,7 +135,7 @@
             }
         },
         computed: {
-            ...mapGetters(['beamLoads', 'slabLoads', 'wallLoads']),
+            ...mapGetters(['column']),
         },
         mounted() {
             this.EventBus.$on('removeBeamLoad', () => this.beams-=1);

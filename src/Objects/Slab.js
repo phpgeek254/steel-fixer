@@ -121,11 +121,11 @@ export const SLAB = {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[7]
         }
         let moment = (edgeCoeff * designLoad * Math.pow(slabObject.width/1000, 2)).toFixed(2);
-        console.log("Edge coefficient: =======> " + edgeCoeff + 'Moment =====>' + moment);
+        console.log("Edge coefficient: =======> " + edgeCoeff + ' ====> Moment =====> ' + moment);
         return parseFloat(moment);
     },
 
-    getMidspanMomentsRestrined(panelTypeIndex, slabObject, designLoad) {
+    getMidspanMomentsRestrained(panelTypeIndex, slabObject, designLoad) {
         let edgeCoeff = 0;
         let ratio = this.getSlabDimensionRatio(slabObject);
         if (ratio < 1.1) {
@@ -200,7 +200,7 @@ export const SLAB = {
         return parseFloat(aS);
     },
 
-    calculateMinimuArea (slabObject) {
+    calculateMinimumArea (slabObject) {
         let minArea = ((0.13/100) * 1000 * slabObject.thickness).toFixed(2);
         return parseFloat(minArea);
     },

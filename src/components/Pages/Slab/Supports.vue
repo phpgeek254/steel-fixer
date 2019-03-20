@@ -54,7 +54,7 @@
                 // calculate ly/lx
                 // get the coefficient
                 let edgeMoment = this.SLAB.getEdgeMomentsRestrained(this.edgeConditions, this.slab.dimensions, this.slab.designLoad);
-                let midspanMoment = this.SLAB.getMidspanMomentsRestrined(this.edgeConditions, this.slab.dimensions, this.slab.designLoad);
+                let midspanMoment = this.SLAB.getMidspanMomentsRestrained(this.edgeConditions, this.slab.dimensions, this.slab.designLoad);
 
                 let areaOfMainSteelEdge = this.SLAB.calculateMainSteelArea(this.slab.dimensions, 10, 20, edgeMoment, this.slab.materialProperties.fCu, this.slab.materialProperties.fY);
                 let areaOfSecSteelEdge = this.SLAB.calculateSecondarySteelArea(this.slab.dimensions, 10, 20, edgeMoment, this.slab.materialProperties.fCu, this.slab.materialProperties.fY);
@@ -62,7 +62,7 @@
                 let areaOfMainSteelMidspan = this.SLAB.calculateMainSteelArea(this.slab.dimensions, 10, 20, midspanMoment, this.slab.materialProperties.fCu, this.slab.materialProperties.fY);
                 let areaOfSecSteelMidspan = this.SLAB.calculateSecondarySteelArea(this.slab.dimensions, 10, 20, midspanMoment, this.slab.materialProperties.fCu, this.slab.materialProperties.fY);
 
-                let minArea = this.SLAB.calculateMinimuArea(this.slab.dimensions);
+                let minArea = this.SLAB.calculateMinimumArea(this.slab.dimensions);
                 let momentsAreas = {
                     hoggingMoments: edgeMoment,
                     saggingMoments: midspanMoment,

@@ -7,11 +7,8 @@ export const Column = {
         BracedColumn: 15,
         UnbracedColumn: 10
     },
-    END_CONDITION_DESCRIPTIONS: {
-        condition_1: '',
-        condition_2: '',
-        condition_3: ''
-    },
+
+
     END_CONDITION_COEFFICIENTS: [
         [0.75, 0.80, 0.90],
         [0.80, 0.85, 0.95],
@@ -26,7 +23,7 @@ export const Column = {
 
     calculateEffectiveHeight (topEndCondition, bottomEndCondition, columnClearHeight) {
         let effectiveColumnHeight = this.getBettaCoefficient(topEndCondition, bottomEndCondition) * columnClearHeight;
-        console.log('calculateEffectiveHeight ? ', effectiveColumnHeight);
+        console.log('calculateEffectiveHeight  ', effectiveColumnHeight);
         return effectiveColumnHeight;
     },
     checkColumnSlenderness(topEndCondition, bottomEndCondition, columnClearHeight, columnWidth) {
