@@ -4,7 +4,7 @@
             fixed
             app
     >
-        <img src="https://www.coursetakers.ae/img/uploads/school_images_temp/a9a73e597d19a005817297fbce359b10.png"
+        <img src="https://st.depositphotos.com/1854299/1603/i/950/depositphotos_16030251-stock-photo-reinforced-concrete-structure.jpg"
              alt="logo" height="250">
         <v-list>
             <v-list-tile @click="$router.push({name: 'beams'})">
