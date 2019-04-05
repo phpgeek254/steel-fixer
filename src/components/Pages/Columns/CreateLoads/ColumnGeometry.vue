@@ -56,7 +56,7 @@
                     ></v-select>
                 </v-flex>
 
-                <v-flex class="ma-2">
+                <v-flex class="ma-2n ">
                     <img src="images/column_geo.png" alt="column geometry" width="200"> <br>
                     <img src="images/Column_r.png" alt="column restraints" width="400">
                 </v-flex>

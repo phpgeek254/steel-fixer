@@ -60,8 +60,8 @@
 
                     <v-tab-item>
                         <v-card flat>
-                            <h2 class="ma-3">Design</h2>
-                            <!--Characteristic Strength of Concrete-->
+                            <h2 class="ma-3">Select Steel bars</h2>
+                            <SlabSteelSelection></SlabSteelSelection>
                             <v-layout row>
 
                             </v-layout>
@@ -137,28 +137,33 @@
                 <tr>
                     <th>Edge Main Steel</th>
                     <th>{{ slab.results.hoggingMainSteel }}</th>
-                    <th>NULL</th>
+                    <th>{{ slab.areaOfSteelProvided > slab.results.hoggingMainSteel ? 'OK' : 'Failed' }}</th>
                 </tr>
                 <tr>
                     <th>Edge Secondary Steel</th>
                     <th>{{ slab.results.hoggingSecondarySteel }}</th>
-                    <th>NULL</th>
+                    <th>{{ slab.areaOfSteelProvided > slab.results.hoggingSecondarySteel ? 'OK' : 'Failed' }}</th>
                 </tr>
 
                 <tr>
                     <th>Midspan Main Steel</th>
                     <th>{{ slab.results.saggingMainSteel }}</th>
-                    <th>NULL</th>
+                    <th>{{ slab.areaOfSteelProvided > slab.results.saggingMainSteel ? 'OK' : 'Failed' }}</th>
                 </tr>
                 <tr>
                     <th>Midspan Secondary Steel</th>
                     <th>{{ slab.results.saggingSecondarySteel }}</th>
-                    <th>NULL</th>
+                    <th>{{ slab.areaOfSteelProvided > slab.results.saggingSecondarySteel ? 'OK' : 'Failed' }}</th>
                 </tr>
                 <tr>
                     <th>Minimum Area of Steel</th>
                     <th>{{ slab.results.minimumArea }}</th>
-                    <th>NULL</th>
+                    <th>{{ slab.areaOfSteelProvided > slab.results.minimumArea ? 'OK' : 'Failed' }}</th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Select D{{slab.barSize }} @ {{ slab.barSpacing }} centers
+                    </th>
                 </tr>
 
 
@@ -179,10 +184,12 @@
     import ObjectDimensions from "../../Utils/ObjectDimensions";
     import Supports from "./Supports";
     import {mapGetters} from 'vuex';
+    import SteelBarSelection from "../Columns/CreateLoads/SteelBarSelection";
+    import SlabSteelSelection from "./SlabSteelSelection";
 
     export default {
         name: "Slab",
-        components: {Supports, ObjectDimensions, LiveLoad, MaterialProperties},
+        components: {SlabSteelSelection, SteelBarSelection, Supports, ObjectDimensions, LiveLoad, MaterialProperties},
         data() {
             return {
                 tab: null

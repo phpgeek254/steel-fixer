@@ -104,7 +104,7 @@ export const SLAB = {
         let edgeCoeff = 0;
         let ratio = this.getSlabDimensionRatio(slabObject);
         if (ratio < 1.1) {
-            edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[0];
+            edgeCoeff = this.SLAB_TYPES[panelTypeIndex].G;
         } else if (ratio >= 1.1 && ratio < 1.2) {
             edgeCoeff = this.SLAB_TYPES[panelTypeIndex].edge_moment_coeff[1];
         } else if (ratio >= 1.2 && ratio < 1.3) {
@@ -190,6 +190,11 @@ export const SLAB = {
         let leverArm = this.calculateLeverArm(k, effectiveDepthMain);
         let aS = ((moment * Math.pow(10, 6)) / (0.95 * fY * leverArm)).toFixed(2);
         return parseFloat(aS);
+    },
+
+    calculateAreaOfSteelProvided(diameter) {
+       let area =  (Math.PI * Math.pow(diameter/2, 2)).toFixed(2);
+       return parseFloat(area);
     },
 
     calculateSecondarySteelArea(slabObject, mainSteelSize, cover, moment, fCu, fY) {

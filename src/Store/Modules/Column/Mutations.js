@@ -102,6 +102,13 @@ export const mutations = {
 
     'SAVE_DESIGN_RESULTS': (state, payload) => {
         state.slab.results = payload.momentsAreas;
+    },
+
+   'SAVE_SLAB_BARS': (state, payload) => {
+        state.slab.barSpacing = payload.spacing;
+        state.slab.barSize = payload.barSize;
+        state.slab.numberOfBars = 1000/payload.spacing;
+        state.slab.areaOfSteelProvided = parseFloat((SLAB.calculateAreaOfSteelProvided(payload.barSize) * 1000/payload.spacing).toFixed(2));
     }
 
 
